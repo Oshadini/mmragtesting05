@@ -369,14 +369,14 @@ if uploaded_file is not None:
     
     for i in range(len(docs)):
         if docs[i].startswith('/9j') and not found_image:
-            display.display(HTML(f'<img src="data:image/jpeg;base64,{docs[i]}">'))
+            #display.display(HTML(f'<img src="data:image/jpeg;base64,{docs[i]}">'))
     
             base64_image = docs[i]
             image_data = base64.b64decode(base64_image)
     
             # Display the image
             img = Image.open(BytesIO(image_data))
-            img.show()
+            st.image(img)
             found_image = True  # Set the flag to True to indicate that an image has been found
     
     
