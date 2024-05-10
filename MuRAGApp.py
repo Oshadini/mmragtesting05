@@ -44,7 +44,8 @@ from PIL import Image
 from io import BytesIO
 from langchain.vectorstores import Pinecone
 from pinecone import Pinecone
-
+import chromadb
+import sqlite3
 st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 
 
@@ -273,7 +274,9 @@ if uploaded_file is not None:
         if image_summaries:
             add_documents(retriever, image_summaries, images)
         return retriever
-    
+
+
+
     # The vectorstore to use to index the summaries
     vectorstore = Chroma(
         collection_name="mm_rag_mistral",
