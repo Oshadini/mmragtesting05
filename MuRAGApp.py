@@ -114,6 +114,63 @@ if uploaded_file is not None:
     
     texts, tables = categorize_elements(pdf_elements)
 
+    # Generate summaries of text elements
+    def generate_text_summaries(texts, tables, summarize_texts=False):
+        """
+        Summarize text elements
+        texts: List of str
+        tables: List of str
+        summarize_texts: Bool to summarize texts
+        """
+    
+        # Prompt
+        prompt_text = """You are an assistant tasked with summarizing tables and text for retrieval. \
+        These summaries will be embedded and used to retrieve the raw text or table elements. \
+        Give a concise summary of the table or text that is well-optimized for retrieval. Table \
+        or text: {element} """
+    
+        prompt = PromptTemplate.from_template(prompt_text)
+        empty_response = RunnableLambda(
+            lambda x: AIMessage(content="Error processing document")
+        )
+        # Text summary chain
+        #model = ChatGoogleGenerativeAI(
+            #temperature=0, model="gemini-pro", max_output_tokens=1024
+            #temperature=0, model="gemini-1.5-pro-latest", max_output_tokens=1024
+        #)
+    
+        model = ChatOpenAI(
+            temperature=0, model="gpt-4-turbo", openai_api_key = openai.api_key, max_tokens=1024)
+            #temperature=0, model="gemini-1.5-pro-latest", max_output_tokens=1024
+        #)
+    
+    
+        summarize_chain = {"element": lambda x: x} | prompt | model | StrOutputParser()
+    
+        # Initialize empty summaries
+        text_summaries = []
+        table_summaries = []
+    
+        # Apply to text if texts are provided and summarization is requested
+        if texts and summarize_texts:
+            text_summaries = summarize_chain.batch(texts, {"max_concurrency": 5})
+        elif texts:
+            text_summaries = texts
+    
+        # Apply to tables if tables are provided
+        if tables:
+            table_summaries = summarize_chain.batch(tables, {"max_concurrency":5})
+    
+        return text_summaries, table_summaries
+    
+    
+    # Get text, table summaries
+    text_summaries, table_summaries = generate_text_summaries(
+        texts, tables, summarize_texts=True
+    )
+
+
+    
     def encode_image(image_path):
         """Getting the base64 string"""
         with open(image_path, "rb") as image_file:
