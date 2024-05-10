@@ -43,7 +43,7 @@ import base64
 from PIL import Image
 from io import BytesIO
 from langchain.vectorstores import Pinecone
-
+from pinecone import Pinecone
 
 st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 
@@ -280,6 +280,10 @@ if uploaded_file is not None:
                 environment= 'us-east-1'
     )
     index_name = pinecone.Index('index1mmrag')
+
+    
+    pc = Pinecone(api_key="3793aa22-d177-475c-8ec8-c900a9ca1523")
+    index = pc.Index("index1mmrag")
 
     vectorstore = Pinecone(embeddings, index_name='index1mmrag')
 
