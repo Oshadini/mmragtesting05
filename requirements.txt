@@ -1,16 +1,16 @@
 streamlit
 unstructured[all-docs]
-langchain 
+langchain == 0.0.316 
 pydantic 
 lxml
 langchain-google-genai
 google.generativeai
-chromadb
+chromadb==0.4.15
 pysqlite3-binary
 google-generativeai
 langsmith 
 langchainhub
-openai 
+openai==0.28.1
 tiktoken 
 opencv-python
 tensorflow-probability
