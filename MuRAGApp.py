@@ -275,11 +275,8 @@ if uploaded_file is not None:
         return retriever
     
     embeddings = OpenAIEmbeddings(openai_api_key=os.environ['OPENAI_API_KEY']) # set openai_api_key = 'your_openai_api_key'
-    pinecone.init(
-                api_key= "3793aa22-d177-475c-8ec8-c900a9ca1523", # set api_key = 'yourapikey'
-                environment= 'us-east-1'
-    )
-    index_name = pinecone.Index('index1mmrag')
+
+  
 
     
     pc = Pinecone(api_key="3793aa22-d177-475c-8ec8-c900a9ca1523")
