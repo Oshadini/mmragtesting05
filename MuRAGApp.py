@@ -274,16 +274,14 @@ if uploaded_file is not None:
             add_documents(retriever, image_summaries, images)
         return retriever
     
-    embeddings = OpenAIEmbeddings(openai_api_key=os.environ['OPENAI_API_KEY']) # set openai_api_key = 'your_openai_api_key'
-
-  
-
+    # The vectorstore to use to index the summaries
+    vectorstore = Chroma(
+        collection_name="mm_rag_mistral",
+        #embedding_function=GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+        embedding_function=OpenAIEmbeddings(openai_api_key=openai.api_key)
     
-    pc = Pinecone(api_key="3793aa22-d177-475c-8ec8-c900a9ca1523")
-    index = pc.Index("index1mmrag")
-
-    vectorstore = Pinecone(embeddings, index_name='index1mmrag')
-
+    )
+    
 
 
     
