@@ -39,7 +39,9 @@ from IPython.display import HTML, display
 from langchain.schema.runnable import RunnableLambda, RunnablePassthrough
 from PIL import Image
 from langchain.chat_models import ChatOpenAI
-
+import base64
+from PIL import Image
+from io import BytesIO
 
 
 
