@@ -42,7 +42,7 @@ from langchain.chat_models import ChatOpenAI
 import base64
 from PIL import Image
 from io import BytesIO
-
+from langchain.vectorstores import Pinecone
 
 
 st.set_page_config(layout='wide', initial_sidebar_state='expanded')
@@ -274,14 +274,17 @@ if uploaded_file is not None:
             add_documents(retriever, image_summaries, images)
         return retriever
     
-    # The vectorstore to use to index the summaries
-    vectorstore = Chroma(
-        collection_name="mm_rag_mistral",
-        #embedding_function=GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-        embedding_function=OpenAIEmbeddings(openai_api_key=openai.api_key)
-    
+    embeddings = OpenAIEmbeddings(openai_api_key=os.environ['OPENAI_API_KEY']) # set openai_api_key = 'your_openai_api_key'
+    pinecone.init(
+                api_key= "3793aa22-d177-475c-8ec8-c900a9ca1523", # set api_key = 'yourapikey'
+                environment= 'us-east-1'
     )
-    
+    index_name = pinecone.Index('index1mmrag')
+
+    vectorstore = Pinecone(embeddings, index_name='index1mmrag')
+
+
+
     
     # Create retriever
     retriever_multi_vector_img = create_multi_vector_retriever(
