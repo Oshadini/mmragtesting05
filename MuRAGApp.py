@@ -43,7 +43,7 @@ import base64
 from PIL import Image
 from io import BytesIO
 from langchain.vectorstores import Pinecone
-from pinecone import pinecone
+from pinecone import Pinecone
 
 st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 
