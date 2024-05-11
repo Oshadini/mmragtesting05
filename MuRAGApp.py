@@ -235,7 +235,6 @@ if uploaded_file is not None:
     img_base64_list, image_summaries = generate_img_summaries(fpath)
     st.write(image_summaries)
 
-
     def create_multi_vector_retriever(
         vectorstore, text_summaries, texts, table_summaries, tables, image_summaries, images
     ):
@@ -274,9 +273,7 @@ if uploaded_file is not None:
         if image_summaries:
             add_documents(retriever, image_summaries, images)
         return retriever
-
-
-
+    
     # The vectorstore to use to index the summaries
     vectorstore = Chroma(
         collection_name="mm_rag_mistral",
@@ -285,8 +282,6 @@ if uploaded_file is not None:
     
     )
     
-
-
     
     # Create retriever
     retriever_multi_vector_img = create_multi_vector_retriever(
@@ -298,7 +293,7 @@ if uploaded_file is not None:
         image_summaries,
         img_base64_list,
     )
-
+    
     def looks_like_base64(sb):
         """Check if the string looks like base64"""
         return re.match("^[A-Za-z0-9+/]+[=]{0,2}$", sb) is not None
@@ -399,13 +394,13 @@ if uploaded_file is not None:
         """
     
         # Multi-modal LLM
-        model = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", max_output_tokens=1024)
+       #model = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", max_output_tokens=1024)
         #try:
           #model = ChatGoogleGenerativeAI(model="gemini-pro-vision", max_output_tokens=1024)
         #except Exception as e:
           #model = ChatGoogleGenerativeAI(model="gemini-pro", max_output_tokens=1024)
     
-        #model = ChatOpenAI(model="gpt-4-vision-preview", openai_api_key = openai.api_key, max_tokens=1024)
+        model = ChatOpenAI(model="gpt-4-vision-preview", openai_api_key = openai.api_key, max_tokens=1024)
     
         # RAG pipeline
         chain = (
@@ -419,7 +414,10 @@ if uploaded_file is not None:
         )
     
         return chain
+        
     
+       
+        
     
     # Create RAG chain
     chain_multimodal_rag = multi_modal_rag_chain(retriever_multi_vector_img)
